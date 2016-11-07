@@ -1,19 +1,30 @@
 extends layout
 
 block content
-  each esTask in esTasks
+
     table
-      tr
-        td= esTask._source.task
-        td= esTask._source.urgency
-        td= esTask._source.requester
-  form(action='/', method='POST')
-    | Tasks: 
-    input(type='text', name='task')
+      thread
+        tr
+          th Tasks
+          th Urgency
+          th Requester
+          th ID
+      each esTask in esTasks
+        tr
+          td= esTask._source.task
+          td= esTask._source.urgency
+          td= esTask._source.requester
+          td
+            button.remove-doc.btn.btn-danger.col-xs-12(data-id="#{esTask._id)") X
     br
-    | Urgency: 
-    input(type='text', name='urgency')
-    br
-    | requester: 
-    input(type='text', name='requester')
-    input(type='submit', value='Submit')
+    form(action='/', method='POST')
+      | Tasks: 
+      input(type='text', name='task')
+      br
+      | Urgency:  
+      input(type='text', name='urgency')
+      br
+      | requester: 
+      input(type='text', name='requester')
+      br
+      input(type='submit', value='Submit')

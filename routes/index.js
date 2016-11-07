@@ -36,13 +36,12 @@ router.post('/', function (req, res) {
 });
 
 /*  This responds delete job */
-router.delete('/', function (req, res) {
-   res.send('DELETE job');
-})
+app.post('/delete', function(req, res, next) {
+   var task_id = req.body.task_Id || req.query.task_Id;
 
-/*  This responds a GET request for the /list_user page. */
-router.get('/list_job', function (req, res) {
-   res.send('listing jobs');
-})
+   elastic.deleteTask(task_Id, function(err, res) {
+       if (err) { res.json({"err": err}); } else { res.json({success: true});
+   });
+});
 
 module.exports = router;
