@@ -1,7 +1,7 @@
 var elasticsearch = require('elasticsearch');
 
 var elasticClient = new elasticsearch.Client({
-    host: 'localhost:9200',
+    host: '192.168.99.100:9200',
     log: 'info'
 });
 
@@ -57,36 +57,29 @@ function initMapping() {
 }
 exports.initMapping = initMapping;
 
-function addDocument(document) {
-    return elasticClient.index({
-        index: indexName,
-        type: "document",
+function getTasks(callback) {
+    elasticClient.search({
+        index: 'tasks',
+        type: 'task',
         body: {
-            title: document.title,
-            content: document.content,
-            suggest: {
-                input: document.title.split(" "),
-                output: document.title,
-                payload: document.metadata || {}
+            query: {
+                "match_all": {}
             }
+        }
+    }, callback);
+} 
+
+function addTask(task) {
+
+    return elasticClient.index({
+        index: 'tasks' ,
+        type: 'task',
+        body: {
+            task: task.task,
+            urgency: task.urgency,
+            requester: task.requester
         }
     });
 }
-exports.addDocument = addDocument;
-
-function getSuggestions(input) {
-    return elasticClient.suggest({
-        index: indexName,
-        type: "document",
-        body: {
-            docsuggest: {
-                text: input,
-                completion: {
-                    field: "suggest",
-                    fuzzy: true
-                }
-            }
-        }
-    })
-}
-exports.getSuggestions = getSuggestions;
+exports.getTasks = getTasks;
+exports.addTask = addTask;

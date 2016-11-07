@@ -1,5 +1,19 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  each esTask in esTasks
+    table
+      tr
+        td= esTask._source.task
+        td= esTask._source.urgency
+        td= esTask._source.requester
+  form(action='/', method='POST')
+    | Tasks: 
+    input(type='text', name='task')
+    br
+    | Urgency: 
+    input(type='text', name='urgency')
+    br
+    | requester: 
+    input(type='text', name='requester')
+    input(type='submit', value='Submit')
