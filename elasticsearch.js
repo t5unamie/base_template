@@ -82,14 +82,15 @@ function addTask(task) {
     });
 }
 
-function deleteTask(task_id) {
+function deleteTask(task_id, callback) {
 
     return elasticClient.delete({
         index: 'tasks',
         type: 'task',
         id: task_id,
-    });
+    }, callback);
 }
 
 exports.getTasks = getTasks;
 exports.addTask = addTask;
+exports.deleteTask = deleteTask;

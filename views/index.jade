@@ -15,7 +15,10 @@ block content
           td= esTask._source.urgency
           td= esTask._source.requester
           td
-            button.remove-doc.btn.btn-danger.col-xs-12(data-id="#{esTask._id)") X
+            form(action='/delete', method='POST')
+              input(type='hidden', name='task_Id', value="#{esTask._id}")
+              input(type='submit', value='X').remove-doc.btn.btn-danger.col-xs-12(data-id="#{esTask._id)")
+
     br
     form(action='/', method='POST')
       | Tasks: 

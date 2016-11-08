@@ -31,16 +31,17 @@ router.post('/', function (req, res) {
     elastic.addTask(record).then(function (result) {
       console.log('The record created!');
       console.log(result);
-      res.redirect('back');
-    });   
+      res.redirect('/');
+    }); 
 });
 
 /*  This responds delete job */
-app.post('/delete', function(req, res, next) {
+router.post('/delete', function(req, res, next) {
    var task_id = req.body.task_Id || req.query.task_Id;
 
-   elastic.deleteTask(task_Id, function(err, res) {
-       if (err) { res.json({"err": err}); } else { res.json({success: true});
+   elastic.deleteTask(task_id, function(err, del) {
+       if (err) { res.json({"err": err}); } else { res.redirect('back');}
+       console.log(task_id);
    });
 });
 
