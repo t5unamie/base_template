@@ -37,12 +37,17 @@ router.post('/', function (req, res) {
 
 /*  This responds delete job */
 router.post('/delete', function(req, res, next) {
-   var task_id = req.body.task_Id || req.query.task_Id;
-
-   elastic.deleteTask(task_id, function(err, del) {
-       if (err) { res.json({"err": err}); } else { res.redirect('back');}
-       console.log(task_id);
+  console.log(req);
+   var taskid = req.body.taskid || req.query.taskid;
+   console.log(taskid);
+   elastic.deleteTask(taskid, function(err, del) {
+       if (err) { res.json({"err": err}); } else { res.json({success: true})}
    });
 });
+
+// respond with "hello world" when a GET request is made to the homepage
+router.get('/test', function (req, res) {
+  res.send('hello world')
+})
 
 module.exports = router;

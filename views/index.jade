@@ -1,23 +1,20 @@
 extends layout
 
 block content
-
     table
       thread
         tr
           th Tasks
           th Urgency
           th Requester
-          th ID
+          th Delete
       each esTask in esTasks
         tr
           td= esTask._source.task
           td= esTask._source.urgency
           td= esTask._source.requester
-          td
-            form(action='/delete', method='POST')
-              input(type='hidden', name='task_Id', value="#{esTask._id}")
-              input(type='submit', value='X').remove-doc.btn.btn-danger.col-xs-12(data-id="#{esTask._id)")
+          td 
+            input(type='button', value='X').remove-doc.btn.btn-danger.col-xs-12(data-id="#{esTask._id}")
 
     br
     form(action='/', method='POST')
@@ -31,3 +28,6 @@ block content
       input(type='text', name='requester')
       br
       input(type='submit', value='Submit')
+
+      script(src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js", type="text/javascript")
+      script(src="/javascripts/main.js", type="text/javascript")
